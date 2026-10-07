@@ -1,0 +1,91 @@
+model User {
+  id                 String     @id @default(cuid())
+  pharmacyId         String? // null for SUPER_ADMIN
+  name               String
+  email              String     @unique
+  emailVerified      Boolean    @default(true)
+  image              String?
+  phone              String?
+  role               Role       @default(STAFF)
+  status             UserStatus @default(ACTIVE)
+  mustChangePassword Boolean    @default(true)
+  lastLoginAt        DateTime?
+  passwordChangedAt  DateTime?
+  createdById        String?
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
+
+  pharmacy     Pharmacy? @relation(fields: [pharmacyId], references: [id])
+  createdBy    User?     @relation("UserCreatedBy", fields: [createdById], references: [id])
+  createdUsers User[]    @relation("UserCreatedBy")
+
+  sessions             Session[]
+  accounts             Account[]
+  refreshTokens        RefreshToken[]
+  resetTokens          PasswordResetToken[]
+  reviewedApplications Application[]        @relation("ApplicationReviewer")
+  verifiedPayments     Payment[]            @relation("PaymentVerifier")
+  purchases            Purchase[]
+  supplierPayments     SupplierPayment[]
+  purchaseReturns      PurchaseReturn[]
+  salesCreated         Sale[]               @relation("SaleCreatedBy")
+  salesCancelled       Sale[]               @relation("SaleCancelledBy")
+  saleReturns          SaleReturn[]
+  duePayments          DuePayment[]
+  expenses             Expense[]
+  stockMovements       StockMovement[]
+  stockAdjustments     StockAdjustment[]
+  auditLogs            AuditLog[]
+  importJobs           ImportJob[]
+
+  @@index([pharmacyId, role])
+  @@index([pharmacyId, status])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
+}

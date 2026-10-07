@@ -1,0 +1,17 @@
+model SaleReturnItem {
+  id                String  @id @default(cuid())
+  saleReturnId      String
+  saleItemId        String
+  batchId           String // original batch
+  quantityPieces    Int
+  unitPricePerPiece Decimal @db.Decimal(12, 2)
+  amount            Decimal @db.Decimal(14, 2)
+  discountShare     Decimal @db.Decimal(14, 2)
+  refundAmount      Decimal @db.Decimal(14, 2)
+
+  saleReturn SaleReturn    @relation(fields: [saleReturnId], references: [id], onDelete: Cascade)
+  saleItem   SaleItem      @relation(fields: [saleItemId], references: [id])
+  batch      MedicineBatch @relation(fields: [batchId], references: [id])
+
+  @@index([saleReturnId])
+}

@@ -1,0 +1,24 @@
+model StockMovement {
+  id             String            @id @default(cuid())
+  pharmacyId     String
+  medicineId     String
+  batchId        String
+  type           StockMovementType
+  quantityPieces Int // signed: + in, - out
+  balanceAfter   Int // batch availableQty after this movement
+  refType        String? // "Purchase", "Sale", "SaleReturn", ...
+  refId          String?
+  note           String?
+  createdById    String?
+  createdAt      DateTime          @default(now())
+
+  pharmacy  Pharmacy      @relation(fields: [pharmacyId], references: [id])
+  medicine  Medicine      @relation(fields: [medicineId], references: [id])
+  batch     MedicineBatch @relation(fields: [batchId], references: [id])
+  createdBy User?         @relation(fields: [createdById], references: [id])
+
+  @@index([batchId, createdAt])
+  @@index([pharmacyId, medicineId, createdAt])
+  @@index([pharmacyId, type, createdAt])
+  @@index([refType, refId])
+}

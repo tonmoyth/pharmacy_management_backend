@@ -1,0 +1,23 @@
+model SaleReturn {
+  id            String   @id @default(cuid())
+  pharmacyId    String
+  saleId        String
+  returnNo      String
+  reason        String   @db.Text // mandatory
+  itemsAmount   Decimal  @db.Decimal(14, 2)
+  discountShare Decimal  @db.Decimal(14, 2) // proportional invoice discount removed
+  refundAmount  Decimal  @db.Decimal(14, 2) // itemsAmount - discountShare
+  dueReduced    Decimal  @default(0) @db.Decimal(14, 2)
+  cashRefunded  Decimal  @default(0) @db.Decimal(14, 2)
+  createdById   String
+  createdAt     DateTime @default(now())
+
+  pharmacy  Pharmacy         @relation(fields: [pharmacyId], references: [id])
+  sale      Sale             @relation(fields: [saleId], references: [id])
+  createdBy User             @relation(fields: [createdById], references: [id])
+  items     SaleReturnItem[]
+
+  @@unique([pharmacyId, returnNo])
+  @@index([pharmacyId, createdAt])
+  @@index([saleId])
+}

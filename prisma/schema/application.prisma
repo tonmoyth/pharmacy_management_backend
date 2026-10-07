@@ -1,0 +1,29 @@
+model Application {
+  id              String            @id @default(cuid())
+  planId          String
+  pharmacyName    String
+  ownerName       String
+  phone           String
+  email           String
+  address         String
+  city            String
+  area            String
+  nidOrLicense    String?
+  termsAcceptedAt DateTime
+  status          ApplicationStatus @default(PENDING)
+  rejectReason    String?           @db.Text
+  reviewedById    String?
+  reviewedAt      DateTime?
+  pharmacyId      String?           @unique // set after approval
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+
+  plan       Plan      @relation(fields: [planId], references: [id])
+  reviewedBy User?     @relation("ApplicationReviewer", fields: [reviewedById], references: [id])
+  pharmacy   Pharmacy? @relation(fields: [pharmacyId], references: [id])
+  payments   Payment[]
+
+  @@index([status, createdAt])
+  @@index([email, status])
+  @@index([phone, status])
+}

@@ -1,0 +1,23 @@
+model AuditLog {
+  id         String   @id @default(cuid())
+  pharmacyId String?
+  userId     String?
+  userName   String
+  userRole   Role
+  action     String // e.g. SALE_CREATED, PURCHASE_EDIT_BLOCKED, STOCK_ADJUSTED
+  entityType String?
+  entityId   String?
+  oldValue   Json?
+  newValue   Json?
+  reason     String?
+  ip         String?
+  userAgent  String?
+  createdAt  DateTime @default(now())
+
+  pharmacy Pharmacy? @relation(fields: [pharmacyId], references: [id])
+  user     User?     @relation(fields: [userId], references: [id])
+
+  @@index([pharmacyId, createdAt])
+  @@index([pharmacyId, action, createdAt])
+  @@index([entityType, entityId])
+}

@@ -1,0 +1,20 @@
+model SupplierPayment {
+  id          String    @id @default(cuid())
+  pharmacyId  String
+  supplierId  String
+  purchaseId  String?
+  amount      Decimal   @db.Decimal(14, 2)
+  method      PayMethod @default(CASH)
+  paidAt      DateTime  @default(now())
+  note        String?
+  createdById String
+  createdAt   DateTime  @default(now())
+
+  pharmacy  Pharmacy  @relation(fields: [pharmacyId], references: [id])
+  supplier  Supplier  @relation(fields: [supplierId], references: [id])
+  purchase  Purchase? @relation(fields: [purchaseId], references: [id])
+  createdBy User      @relation(fields: [createdById], references: [id])
+
+  @@index([supplierId, paidAt])
+  @@index([pharmacyId, paidAt])
+}

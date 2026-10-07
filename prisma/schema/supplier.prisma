@@ -1,0 +1,19 @@
+model Supplier {
+  id         String   @id @default(cuid())
+  pharmacyId String
+  name       String
+  phone      String?
+  address    String?
+  company    String?
+  dueBalance Decimal  @default(0) @db.Decimal(14, 2) // maintained in transactions; negative = supplier credit
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  pharmacy         Pharmacy          @relation(fields: [pharmacyId], references: [id])
+  purchases        Purchase[]
+  supplierPayments SupplierPayment[]
+  purchaseReturns  PurchaseReturn[]
+
+  @@index([pharmacyId, name])
+}

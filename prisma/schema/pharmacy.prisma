@@ -1,0 +1,48 @@
+model Pharmacy {
+  id                 String         @id @default(cuid())
+  name               String
+  ownerName          String
+  phone              String
+  email              String
+  address            String
+  city               String
+  area               String
+  nidOrLicense       String?
+  logoUrl            String?
+  invoiceHeader      String?        @db.Text
+  invoiceFooter      String?        @db.Text
+  maxDiscountPercent Decimal        @default(0) @db.Decimal(5, 2) // applies to Cashier and Staff
+  status             PharmacyStatus @default(ACTIVE)
+  suspendedReason    String?
+  suspendedAt        DateTime?
+  deactivatedAt      DateTime?
+  archiveAt          DateTime? // when data may be archived/deleted (expiry or deactivate + 90 days)
+  archivedAt         DateTime?
+  createdAt          DateTime       @default(now())
+  updatedAt          DateTime       @updatedAt
+
+  application      Application?
+  users            User[]
+  subscriptions    Subscription[]
+  payments         Payment[]
+  categories       Category[]
+  medicines        Medicine[]
+  batches          MedicineBatch[]
+  suppliers        Supplier[]
+  purchases        Purchase[]
+  supplierPayments SupplierPayment[]
+  purchaseReturns  PurchaseReturn[]
+  customers        Customer[]
+  sales            Sale[]
+  saleReturns      SaleReturn[]
+  duePayments      DuePayment[]
+  expenses         Expense[]
+  stockMovements   StockMovement[]
+  stockAdjustments StockAdjustment[]
+  notifications    Notification[]
+  auditLogs        AuditLog[]
+  counters         DocumentCounter[]
+  importJobs       ImportJob[]
+
+  @@index([status])
+}

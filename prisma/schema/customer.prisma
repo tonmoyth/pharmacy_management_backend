@@ -1,0 +1,20 @@
+model Customer {
+  id          String   @id @default(cuid())
+  pharmacyId  String
+  name        String
+  phone       String?
+  address     String?
+  creditLimit Decimal? @db.Decimal(14, 2)
+  dueBalance  Decimal  @default(0) @db.Decimal(14, 2) // maintained in transactions
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  pharmacy    Pharmacy     @relation(fields: [pharmacyId], references: [id])
+  sales       Sale[]
+  duePayments DuePayment[]
+
+  @@unique([pharmacyId, phone]) // many NULL phones allowed
+  @@index([pharmacyId, name])
+  @@index([pharmacyId, dueBalance])
+}

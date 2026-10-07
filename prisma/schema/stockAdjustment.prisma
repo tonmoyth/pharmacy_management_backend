@@ -1,0 +1,20 @@
+model StockAdjustment {
+  id          String           @id @default(cuid())
+  pharmacyId  String
+  medicineId  String
+  batchId     String
+  oldQty      Int
+  newQty      Int
+  diffQty     Int
+  reason      AdjustmentReason
+  note        String?
+  createdById String
+  createdAt   DateTime         @default(now())
+
+  pharmacy  Pharmacy      @relation(fields: [pharmacyId], references: [id])
+  medicine  Medicine      @relation(fields: [medicineId], references: [id])
+  batch     MedicineBatch @relation(fields: [batchId], references: [id])
+  createdBy User          @relation(fields: [createdById], references: [id])
+
+  @@index([pharmacyId, createdAt])
+}

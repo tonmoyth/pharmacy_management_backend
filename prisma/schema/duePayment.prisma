@@ -1,0 +1,19 @@
+model DuePayment {
+  id          String    @id @default(cuid())
+  pharmacyId  String
+  customerId  String
+  amount      Decimal   @db.Decimal(14, 2)
+  method      PayMethod @default(CASH)
+  paidAt      DateTime  @default(now())
+  note        String?
+  createdById String
+  createdAt   DateTime  @default(now())
+
+  pharmacy    Pharmacy               @relation(fields: [pharmacyId], references: [id])
+  customer    Customer               @relation(fields: [customerId], references: [id])
+  createdBy   User                   @relation(fields: [createdById], references: [id])
+  allocations DuePaymentAllocation[]
+
+  @@index([customerId, paidAt])
+  @@index([pharmacyId, paidAt])
+}

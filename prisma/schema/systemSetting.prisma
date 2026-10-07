@@ -1,0 +1,6 @@
+model SystemSetting {
+  key         String   @id // bkash_number, bkash_account_type, payment_instructions, screenshot_max_mb
+  value       String   @db.Text
+  updatedById String?
+  updatedAt   DateTime @updatedAt
+}

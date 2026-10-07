@@ -1,0 +1,28 @@
+model Purchase {
+  id           String         @id @default(cuid())
+  pharmacyId   String
+  supplierId   String
+  invoiceNo    String // supplier's invoice number
+  purchaseDate DateTime       @db.Date
+  totalAmount  Decimal        @db.Decimal(14, 2)
+  paidAmount   Decimal        @default(0) @db.Decimal(14, 2)
+  dueAmount    Decimal        @default(0) @db.Decimal(14, 2)
+  status       PurchaseStatus @default(COMPLETED)
+  note         String?
+  cancelReason String?
+  cancelledAt  DateTime?
+  createdById  String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+
+  pharmacy         Pharmacy          @relation(fields: [pharmacyId], references: [id])
+  supplier         Supplier          @relation(fields: [supplierId], references: [id])
+  createdBy        User              @relation(fields: [createdById], references: [id])
+  items            PurchaseItem[]
+  supplierPayments SupplierPayment[]
+  returns          PurchaseReturn[]
+
+  @@unique([pharmacyId, supplierId, invoiceNo])
+  @@index([pharmacyId, purchaseDate])
+  @@index([supplierId])
+}

@@ -1,0 +1,19 @@
+model Subscription {
+  id          String             @id @default(cuid())
+  pharmacyId  String
+  planId      String
+  paymentId   String             @unique
+  status      SubscriptionStatus @default(ACTIVE)
+  startDate   DateTime
+  endDate     DateTime
+  cancelledAt DateTime?
+  createdAt   DateTime           @default(now())
+  updatedAt   DateTime           @updatedAt
+
+  pharmacy Pharmacy @relation(fields: [pharmacyId], references: [id])
+  plan     Plan     @relation(fields: [planId], references: [id])
+  payment  Payment  @relation(fields: [paymentId], references: [id])
+
+  @@index([pharmacyId, status])
+  @@index([status, endDate])
+}

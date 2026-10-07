@@ -1,0 +1,11 @@
+model Category {
+  id         String   @id @default(cuid())
+  pharmacyId String
+  name       String
+  createdAt  DateTime @default(now())
+
+  pharmacy  Pharmacy   @relation(fields: [pharmacyId], references: [id])
+  medicines Medicine[]
+
+  @@unique([pharmacyId, name])
+}

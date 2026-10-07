@@ -1,0 +1,28 @@
+model MedicineBatch {
+  id            String   @id @default(cuid())
+  pharmacyId    String
+  medicineId    String
+  batchNo       String
+  expiryDate    DateTime @db.Date // last day of the expiry month
+  mrp           Decimal? @db.Decimal(12, 2) // per piece
+  purchasePrice Decimal  @db.Decimal(12, 2) // per piece
+  sellingPrice  Decimal  @db.Decimal(12, 2) // per piece
+  receivedQty   Int // total pieces ever received into this batch
+  availableQty  Int // current pieces (never below 0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  pharmacy            Pharmacy             @relation(fields: [pharmacyId], references: [id])
+  medicine            Medicine             @relation(fields: [medicineId], references: [id])
+  purchaseItems       PurchaseItem[]
+  purchaseReturnItems PurchaseReturnItem[]
+  saleItems           SaleItem[]
+  saleReturnItems     SaleReturnItem[]
+  stockMovements      StockMovement[]
+  stockAdjustments    StockAdjustment[]
+
+  // same medicine + batch no + same prices => quantity is added; different price => new batch row
+  @@unique([medicineId, batchNo, purchasePrice, sellingPrice])
+  @@index([pharmacyId, expiryDate])
+  @@index([medicineId, expiryDate]) // FEFO lookup
+}

@@ -1,0 +1,39 @@
+model Sale {
+  id                 String       @id @default(cuid())
+  pharmacyId         String
+  invoiceSeq         Int
+  invoiceNo          String // e.g. INV-000123
+  customerId         String? // null = walk-in (only for fully paid sales)
+  subtotal           Decimal      @db.Decimal(14, 2)
+  discountType       DiscountType @default(NONE)
+  discountValue      Decimal      @default(0) @db.Decimal(14, 2) // percent or taka as entered
+  discountAmount     Decimal      @default(0) @db.Decimal(14, 2) // final taka discount
+  totalAmount        Decimal      @db.Decimal(14, 2)
+  paidAmount         Decimal      @db.Decimal(14, 2)
+  dueAmount          Decimal      @default(0) @db.Decimal(14, 2) // remaining unpaid, reduced by due collection/returns
+  paymentMethod      PayMethod    @default(CASH)
+  status             SaleStatus   @default(COMPLETED)
+  note               String?
+  soldAt             DateTime     @default(now())
+  cancelReason       String?
+  cancelledAt        DateTime?
+  cancelledById      String?
+  cancelRefundAmount Decimal?     @db.Decimal(14, 2)
+  createdById        String
+  createdAt          DateTime     @default(now())
+  updatedAt          DateTime     @updatedAt
+
+  pharmacy    Pharmacy               @relation(fields: [pharmacyId], references: [id])
+  customer    Customer?              @relation(fields: [customerId], references: [id])
+  createdBy   User                   @relation("SaleCreatedBy", fields: [createdById], references: [id])
+  cancelledBy User?                  @relation("SaleCancelledBy", fields: [cancelledById], references: [id])
+  items       SaleItem[]
+  returns     SaleReturn[]
+  allocations DuePaymentAllocation[]
+
+  @@unique([pharmacyId, invoiceSeq])
+  @@unique([pharmacyId, invoiceNo])
+  @@index([pharmacyId, soldAt])
+  @@index([pharmacyId, createdById, soldAt]) // own-data rule for Cashier/Staff
+  @@index([customerId, status])
+}

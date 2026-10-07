@@ -1,0 +1,10 @@
+model MedicineUnit {
+  id            String   @id @default(cuid())
+  medicineId    String
+  unit          UnitName
+  piecesPerUnit Int // PIECE = 1, STRIP = 10, BOX = 100 (example)
+
+  medicine Medicine @relation(fields: [medicineId], references: [id], onDelete: Cascade)
+
+  @@unique([medicineId, unit])
+}

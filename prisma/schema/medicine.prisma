@@ -1,0 +1,31 @@
+model Medicine {
+  id                     String         @id @default(cuid())
+  pharmacyId             String
+  categoryId             String?
+  name                   String
+  genericName            String?
+  company                String?
+  strength               String?
+  dosageForm             String?
+  barcode                String? // optional, unique per pharmacy
+  minStockLevel          Int            @default(0) // in pieces
+  isPrescriptionRequired Boolean        @default(false)
+  status                 MedicineStatus @default(ACTIVE)
+  createdById            String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+
+  pharmacy         Pharmacy          @relation(fields: [pharmacyId], references: [id])
+  category         Category?         @relation(fields: [categoryId], references: [id])
+  units            MedicineUnit[]
+  batches          MedicineBatch[]
+  purchaseItems    PurchaseItem[]
+  saleItems        SaleItem[]
+  stockMovements   StockMovement[]
+  stockAdjustments StockAdjustment[]
+
+  @@unique([pharmacyId, barcode]) // Postgres allows many NULL barcodes
+  @@index([pharmacyId, name])
+  @@index([pharmacyId, genericName])
+  @@index([pharmacyId, status])
+}

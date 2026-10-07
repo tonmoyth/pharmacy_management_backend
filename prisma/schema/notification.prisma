@@ -1,0 +1,18 @@
+model Notification {
+  id         String           @id @default(cuid())
+  pharmacyId String? // null = Super Admin notification
+  type       NotificationType
+  title      String
+  message    String           @db.Text
+  refType    String?
+  refId      String?
+  dedupeKey  String?
+  isRead     Boolean          @default(false)
+  readAt     DateTime?
+  createdAt  DateTime         @default(now())
+
+  pharmacy Pharmacy? @relation(fields: [pharmacyId], references: [id])
+
+  @@unique([pharmacyId, dedupeKey])
+  @@index([pharmacyId, isRead, createdAt])
+}

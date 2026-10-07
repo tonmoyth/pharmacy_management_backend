@@ -1,0 +1,31 @@
+model Payment {
+  id             String        @id @default(cuid())
+  type           PaymentType
+  applicationId  String? // for NEW payments
+  pharmacyId     String? // for RENEWAL payments (and NEW after approval)
+  planId         String
+  amount         Decimal       @db.Decimal(12, 2) // plan price snapshot
+  method         PayMethod     @default(BKASH)
+  transactionId  String // see raw SQL: partial unique index
+  senderNumber   String
+  paidAt         DateTime
+  screenshotPath String?
+  status         PaymentStatus @default(PENDING)
+  rejectReason   String?       @db.Text
+  verifiedById   String?
+  verifiedAt     DateTime?
+  refundNote     String?
+  refundedAt     DateTime?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+
+  application  Application?  @relation(fields: [applicationId], references: [id])
+  pharmacy     Pharmacy?     @relation(fields: [pharmacyId], references: [id])
+  plan         Plan          @relation(fields: [planId], references: [id])
+  verifiedBy   User?         @relation("PaymentVerifier", fields: [verifiedById], references: [id])
+  subscription Subscription?
+
+  @@index([status, createdAt])
+  @@index([pharmacyId, createdAt])
+  @@index([transactionId])
+}

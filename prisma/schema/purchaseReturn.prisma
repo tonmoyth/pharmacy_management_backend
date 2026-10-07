@@ -1,0 +1,21 @@
+model PurchaseReturn {
+  id          String               @id @default(cuid())
+  pharmacyId  String
+  supplierId  String
+  purchaseId  String
+  returnNo    String
+  reason      PurchaseReturnReason
+  note        String?
+  totalAmount Decimal              @db.Decimal(14, 2)
+  createdById String
+  createdAt   DateTime             @default(now())
+
+  pharmacy  Pharmacy             @relation(fields: [pharmacyId], references: [id])
+  supplier  Supplier             @relation(fields: [supplierId], references: [id])
+  purchase  Purchase             @relation(fields: [purchaseId], references: [id])
+  createdBy User                 @relation(fields: [createdById], references: [id])
+  items     PurchaseReturnItem[]
+
+  @@unique([pharmacyId, returnNo])
+  @@index([pharmacyId, createdAt])
+}

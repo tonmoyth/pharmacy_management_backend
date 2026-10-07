@@ -1,0 +1,10 @@
+model DocumentCounter {
+  id         String  @id @default(cuid())
+  pharmacyId String
+  type       DocType
+  lastNumber Int     @default(0)
+
+  pharmacy Pharmacy @relation(fields: [pharmacyId], references: [id])
+
+  @@unique([pharmacyId, type])
+}

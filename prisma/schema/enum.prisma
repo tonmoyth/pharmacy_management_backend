@@ -1,0 +1,159 @@
+enum Role {
+  SUPER_ADMIN
+  PHARMACY_OWNER
+  CASHIER
+  STAFF
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum ApplicationStatus {
+  PENDING
+  APPROVED
+  ACTIVE
+  REJECTED
+}
+
+enum PharmacyStatus {
+  ACTIVE
+  SUSPENDED
+  DEACTIVATED
+}
+
+enum SubscriptionStatus {
+  PENDING
+  ACTIVE
+  EXPIRING_SOON
+  EXPIRED
+  CANCELLED
+  SUSPENDED
+}
+
+enum PlanStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum PaymentType {
+  NEW
+  RENEWAL
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCESS
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PayMethod {
+  CASH
+  BKASH
+  BANK
+  OTHER
+}
+
+enum MedicineStatus {
+  ACTIVE
+  INACTIVE
+}
+
+enum UnitName {
+  BOX
+  STRIP
+  PIECE
+}
+
+enum PurchaseStatus {
+  COMPLETED
+  CANCELLED
+}
+
+enum SaleStatus {
+  COMPLETED
+  PARTIALLY_RETURNED
+  RETURNED
+  CANCELLED
+}
+
+enum DiscountType {
+  NONE
+  PERCENT
+  FIXED
+}
+
+enum PurchaseReturnReason {
+  EXPIRED
+  DAMAGED
+  WRONG_ITEM
+  OTHER
+}
+
+enum AdjustmentReason {
+  EXPIRED
+  DAMAGED
+  LOST
+  COUNT_CORRECTION
+}
+
+enum StockMovementType {
+  OPENING_STOCK
+  PURCHASE
+  PURCHASE_CANCEL
+  PURCHASE_RETURN
+  SALE
+  SALE_CANCEL
+  SALE_RETURN
+  ADJUSTMENT
+}
+
+enum ExpenseCategory {
+  RENT
+  ELECTRICITY
+  SALARY
+  INTERNET
+  TRANSPORT
+  MAINTENANCE
+  UTILITY
+  OTHER
+}
+
+enum NotificationType {
+  LOW_STOCK
+  EXPIRING_SOON
+  EXPIRED_MEDICINE
+  SUBSCRIPTION_EXPIRING
+  SUBSCRIPTION_EXPIRED
+  CUSTOMER_DUE
+  SUPPLIER_DUE
+  NEW_APPLICATION
+  PENDING_PAYMENT
+  PAYMENT_VERIFIED
+  PAYMENT_REJECTED
+}
+
+enum ImportType {
+  MEDICINES
+  OPENING_STOCK
+}
+
+enum ImportStatus {
+  VALIDATED
+  FAILED
+  COMMITTED
+}
+
+enum DuplicateMode {
+  SKIP
+  UPDATE
+}
+
+enum DocType {
+  SALE
+  SALE_RETURN
+  PURCHASE_RETURN
+}

@@ -1,0 +1,12 @@
+model DuePaymentAllocation {
+  id           String  @id @default(cuid())
+  duePaymentId String
+  saleId       String
+  amount       Decimal @db.Decimal(14, 2)
+
+  duePayment DuePayment @relation(fields: [duePaymentId], references: [id], onDelete: Cascade)
+  sale       Sale       @relation(fields: [saleId], references: [id])
+
+  @@index([duePaymentId])
+  @@index([saleId])
+}

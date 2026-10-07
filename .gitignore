@@ -1,0 +1,9 @@
+node_modules
+dist
+.env
+
+# Prisma generated clients and migrations
+generated
+src/generated
+prisma/generated
+prisma/migrations

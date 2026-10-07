@@ -1,0 +1,15 @@
+model Plan {
+  id           String     @id @default(cuid())
+  name         String
+  durationDays Int
+  price        Decimal    @db.Decimal(12, 2)
+  features     String?    @db.Text // text for landing page only
+  status       PlanStatus @default(ACTIVE)
+  sortOrder    Int        @default(0)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  applications  Application[]
+  subscriptions Subscription[]
+  payments      Payment[]
+}

@@ -1,0 +1,18 @@
+model ImportJob {
+  id            String        @id @default(cuid())
+  pharmacyId    String
+  type          ImportType
+  fileName      String
+  status        ImportStatus  @default(VALIDATED)
+  duplicateMode DuplicateMode @default(SKIP)
+  totalRows     Int           @default(0)
+  errorRows     Json?
+  createdById   String
+  createdAt     DateTime      @default(now())
+  committedAt   DateTime?
+
+  pharmacy  Pharmacy @relation(fields: [pharmacyId], references: [id])
+  createdBy User     @relation(fields: [createdById], references: [id])
+
+  @@index([pharmacyId, createdAt])
+}
