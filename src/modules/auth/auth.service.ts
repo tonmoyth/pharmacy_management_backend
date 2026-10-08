@@ -197,9 +197,11 @@ const changePassword = async (
     }
   } else {
     try {
-      await auth.api.setPassword({
+      await auth.api.changePassword({
         body: {
+          currentPassword,
           newPassword,
+          revokeOtherSessions: true,
         },
         headers: {
           Authorization: `Bearer ${session}`,

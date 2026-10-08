@@ -28,7 +28,43 @@ const getApplicationDetails = catchAsync(async (req: Request, res: Response) => 
   });
 });
 
+const approveApplication = catchAsync(async (req: Request, res: Response) => {
+  const result = await AdminApplicationService.approveApplication(
+    req.params.id as string,
+    req.user,
+    req.ip,
+    req.headers["user-agent"]
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Application approved successfully",
+    data: result,
+  });
+});
+
+const rejectApplication = catchAsync(async (req: Request, res: Response) => {
+  const { reason } = req.body;
+  const result = await AdminApplicationService.rejectApplication(
+    req.params.id as string,
+    reason,
+    req.user,
+    req.ip,
+    req.headers["user-agent"]
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: "Application rejected successfully",
+    data: result,
+  });
+});
+
 export const AdminApplicationController = {
   getApplications,
   getApplicationDetails,
+  approveApplication,
+  rejectApplication,
 };

@@ -18,4 +18,20 @@ router.get(
   AdminApplicationController.getApplicationDetails
 );
 
+router.post(
+  "/:id/approve",
+  checkAuth(Role.SUPER_ADMIN),
+  AdminApplicationController.approveApplication
+);
+
+import validateRequest from "../../../middlewares/validateRequest";
+import { rejectApplicationValidationSchema } from "./application.validation";
+
+router.post(
+  "/:id/reject",
+  checkAuth(Role.SUPER_ADMIN),
+  validateRequest(rejectApplicationValidationSchema),
+  AdminApplicationController.rejectApplication
+);
+
 export const AdminApplicationRoutes = router;
