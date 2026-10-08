@@ -3,7 +3,7 @@ model Plan {
   name         String
   durationDays Int
   price        Decimal    @db.Decimal(12, 2)
-  features     String?    @db.Text // text for landing page only
+  features     String[]   @default([])
   status       PlanStatus @default(ACTIVE)
   sortOrder    Int        @default(0)
   createdAt    DateTime   @default(now())
