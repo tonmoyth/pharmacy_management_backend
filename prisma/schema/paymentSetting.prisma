@@ -1,0 +1,11 @@
+model PaymentSetting {
+  id                   String   @id @default(cuid())
+  bkash_number         String
+  bkash_account_type   String
+  payment_instructions String
+  screenshot_max_mb    String?
+  updatedById          String?
+  updatedAt            DateTime @updatedAt
+
+  @@map("payment_settings")
+}
