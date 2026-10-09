@@ -11,6 +11,10 @@ import { PublicPaymentInfoRoutes } from "../modules/public/payment_info/payment_
 import { PublicApplicationRoutes } from "../modules/public/application/application.public.route";
 import { AdminPaymentManagementRoutes } from "../modules/super_admin/payment_management/payment_management.route";
 import { OwnerSubscriptionRoutes } from "../modules/pharmacy_owner/subscription/subscription.route";
+import { AdminDashboardRoutes } from "../modules/super_admin/dashboard/dashboard.route";
+import { AdminReportsRoutes } from "../modules/super_admin/reports/reports.route";
+import { AdminAuditLogsRoutes } from "../modules/super_admin/audit_logs/audit_logs.route";
+import { AdminNotificationsRoutes } from "../modules/super_admin/notifications/notifications.route";
 
 const router = express.Router();
 
@@ -54,6 +58,22 @@ const moduleRoutes = [
   {
     path: "/pharmacy/owner/subscription",
     route: OwnerSubscriptionRoutes,
+  },
+  {
+    path: "/admin/dashboard",
+    route: AdminDashboardRoutes,
+  },
+  {
+    path: "/admin/reports",
+    route: AdminReportsRoutes,
+  },
+  {
+    path: "/admin/audit-logs",
+    route: AdminAuditLogsRoutes,
+  },
+  {
+    path: "/admin/notifications",
+    route: AdminNotificationsRoutes,
   }
 ];
 
