@@ -4,6 +4,7 @@ import express from "express";
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { PlanRoutes } from "../modules/super_admin/plan/plan.route";
 import { AdminApplicationRoutes } from "../modules/super_admin/application/application.route";
+import { AdminPharmacyRoutes } from "../modules/super_admin/pharmacies/pharmacy.route";
 import { PublicPlanRoutes } from "../modules/public/plan/plan.public.route";
 import { PaymentSettingRoutes } from "../modules/super_admin/payment_setting/payment_setting.route";
 import { PublicPaymentInfoRoutes } from "../modules/public/payment_info/payment_info.route";
@@ -23,6 +24,10 @@ const moduleRoutes = [
   {
     path: "/admin/applications",
     route: AdminApplicationRoutes,
+  },
+  {
+    path: "/admin/pharmacies",
+    route: AdminPharmacyRoutes,
   },
   {
     path: "/public/plans",

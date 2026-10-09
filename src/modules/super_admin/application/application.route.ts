@@ -1,6 +1,7 @@
 import express from "express";
 import { AdminApplicationController } from "./application.controller";
-
+import validateRequest from "../../../middlewares/validateRequest";
+import { rejectApplicationValidationSchema } from "./application.validation";
 import { Role } from "@prisma/client";
 import { checkAuth } from "../../../middlewares/checkAuth";
 
@@ -24,8 +25,6 @@ router.post(
   AdminApplicationController.approveApplication
 );
 
-import validateRequest from "../../../middlewares/validateRequest";
-import { rejectApplicationValidationSchema } from "./application.validation";
 
 router.post(
   "/:id/reject",

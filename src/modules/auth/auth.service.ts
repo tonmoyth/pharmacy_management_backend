@@ -11,6 +11,23 @@ import { hashPassword } from "better-auth/crypto";
 import { sendEmail } from "../../utils/email";
 const loginUser = async (payload: any) => {
   try {
+    const existingUser = await prisma.user.findUnique({
+      where: { email: payload.email },
+      include: { pharmacy: true }
+    });
+
+    if (existingUser) {
+      if (existingUser.status === "INACTIVE") {
+        throw new AppError(httpStatus.FORBIDDEN, "Your account has been deactivated.");
+      }
+      if (existingUser.pharmacy && existingUser.pharmacy.status !== "ACTIVE") {
+        throw new AppError(
+          httpStatus.FORBIDDEN, 
+          `Your pharmacy is ${existingUser.pharmacy.status.toLowerCase()}. Please contact support.`
+        );
+      }
+    }
+
     const result = await auth.api.signInEmail({
       body: {
         email: payload.email,

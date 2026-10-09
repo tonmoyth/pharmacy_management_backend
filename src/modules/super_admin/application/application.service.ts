@@ -345,17 +345,7 @@ const rejectApplication = async (
   });
 
   const emailSubject = "Pharmacy Application Rejected";
-  const emailText = `Hello ${application.ownerName},
-
-We regret to inform you that your application for "${application.pharmacyName}" has been rejected.
-
-Reason for rejection:
-${reason}
-
-You are welcome to submit a new application once you have addressed the issues mentioned above.
-
-Thank you,
-Pharmacy Management System`;
+  const emailText = `Hello ${application.ownerName}, We regret to inform you that your application for "${application.pharmacyName}" has been rejected. Reason for rejection: ${reason} You are welcome to submit a new application once you have addressed the issues mentioned above. If you have any questions or need further clarification, please contact us on WhatsApp at: 01407641417 Thank you, Pharmacy Management System`;
 
   try {
     await sendEmail(application.email, emailSubject, emailText);
