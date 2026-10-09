@@ -9,6 +9,8 @@ import { PublicPlanRoutes } from "../modules/public/plan/plan.public.route";
 import { PaymentSettingRoutes } from "../modules/super_admin/payment_setting/payment_setting.route";
 import { PublicPaymentInfoRoutes } from "../modules/public/payment_info/payment_info.route";
 import { PublicApplicationRoutes } from "../modules/public/application/application.public.route";
+import { AdminPaymentManagementRoutes } from "../modules/super_admin/payment_management/payment_management.route";
+import { OwnerSubscriptionRoutes } from "../modules/pharmacy_owner/subscription/subscription.route";
 
 const router = express.Router();
 
@@ -44,6 +46,14 @@ const moduleRoutes = [
   {
     path: "/public/applications",
     route: PublicApplicationRoutes,
+  },
+  {
+    path: "/admin/payments",
+    route: AdminPaymentManagementRoutes,
+  },
+  {
+    path: "/pharmacy/owner/subscription",
+    route: OwnerSubscriptionRoutes,
   }
 ];
 
