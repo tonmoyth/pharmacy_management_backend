@@ -192,6 +192,13 @@ const changePassword = async (
   const { currentPassword, newPassword } = payload;
   const user = sessionRecord.user;
 
+  if (user.role === Role.STAFF || user.role === Role.CASHIER) {
+    throw new AppError(
+      httpStatus.FORBIDDEN,
+      "Staff and Cashier passwords can only be changed by the Pharmacy Owner."
+    );
+  }
+
   if (!user.mustChangePassword) {
     if (!currentPassword) {
       throw new AppError(httpStatus.BAD_REQUEST, "Current password is required");

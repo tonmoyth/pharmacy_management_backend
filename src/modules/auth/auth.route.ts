@@ -18,7 +18,7 @@ router.get("/me", checkAuth(), AuthController.getMe);
 
 router.patch("/me", checkAuth(), validateRequest(AuthValidation.updateMeZodSchema), AuthController.updateMe);
 
-router.post("/change-password", checkAuth(), validateRequest(AuthValidation.changePasswordZodSchema), AuthController.changePassword);
+router.post("/change-password", checkAuth(Role.SUPER_ADMIN, Role.PHARMACY_OWNER), validateRequest(AuthValidation.changePasswordZodSchema), AuthController.changePassword);
 
 router.post("/change-email", checkAuth(Role.SUPER_ADMIN, Role.PHARMACY_OWNER), validateRequest(AuthValidation.changeEmailZodSchema), AuthController.changeEmail);
 

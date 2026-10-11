@@ -42,6 +42,10 @@ export const checkAuth = (...roles: string[]) => {
             throw new AppError(401, 'Session expired');
         }
 
+        if (session.user.status === 'INACTIVE') {
+            throw new AppError(403, 'Your account has been deactivated.');
+        }
+
         if (roles.length > 0 && !roles.includes(session.user.role as Role)) {
             throw new AppError(403, 'Forbidden. You are not allowed to perform this action.');
         }

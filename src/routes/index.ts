@@ -12,6 +12,7 @@ import { PublicApplicationRoutes } from "../modules/public/application/applicati
 import { AdminPaymentManagementRoutes } from "../modules/super_admin/payment_management/payment_management.route";
 import { OwnerSubscriptionRoutes } from "../modules/pharmacy_owner/subscription/subscription.route";
 import { PharmacyProfileSettingRoutes } from "../modules/pharmacy_owner/profile_setiing/profile_setting.route";
+import { OwnerStaffRoutes } from "../modules/pharmacy_owner/staff_management/staff.route";
 import { AdminDashboardRoutes } from "../modules/super_admin/dashboard/dashboard.route";
 import { AdminReportsRoutes } from "../modules/super_admin/reports/reports.route";
 import { AdminAuditLogsRoutes } from "../modules/super_admin/audit_logs/audit_logs.route";
@@ -63,6 +64,10 @@ const moduleRoutes = [
   {
     path: "/pharmacy",
     route: PharmacyProfileSettingRoutes,
+  },
+  {
+    path: "/pharmacy/staff",
+    route: OwnerStaffRoutes,
   },
   {
     path: "/admin/dashboard",
