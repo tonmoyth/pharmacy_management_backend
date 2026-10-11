@@ -11,6 +11,7 @@ import { PublicPaymentInfoRoutes } from "../modules/public/payment_info/payment_
 import { PublicApplicationRoutes } from "../modules/public/application/application.public.route";
 import { AdminPaymentManagementRoutes } from "../modules/super_admin/payment_management/payment_management.route";
 import { OwnerSubscriptionRoutes } from "../modules/pharmacy_owner/subscription/subscription.route";
+import { PharmacyProfileSettingRoutes } from "../modules/pharmacy_owner/profile_setiing/profile_setting.route";
 import { AdminDashboardRoutes } from "../modules/super_admin/dashboard/dashboard.route";
 import { AdminReportsRoutes } from "../modules/super_admin/reports/reports.route";
 import { AdminAuditLogsRoutes } from "../modules/super_admin/audit_logs/audit_logs.route";
@@ -58,6 +59,10 @@ const moduleRoutes = [
   {
     path: "/pharmacy/owner/subscription",
     route: OwnerSubscriptionRoutes,
+  },
+  {
+    path: "/pharmacy",
+    route: PharmacyProfileSettingRoutes,
   },
   {
     path: "/admin/dashboard",
