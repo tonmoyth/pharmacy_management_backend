@@ -20,6 +20,7 @@ import { AdminNotificationsRoutes } from "../modules/super_admin/notifications/n
 import { CategoryRoutes } from "../modules/pharmacy_owner/category/category.route";
 import { MedicinesManagementRoutes } from "../modules/pharmacy_owner/medicines_management/medicines_management.route";
 import { ExcelCsvImportRoutes } from "../modules/pharmacy_owner/excel_csv_import/excel_csv_import.route";
+import { SupplierRoutes } from "../modules/pharmacy_owner/suppliers/suppliers.route";
 
 const router = express.Router();
 
@@ -84,6 +85,14 @@ const moduleRoutes = [
   {
     path: "/pharmacy/imports",
     route: ExcelCsvImportRoutes,
+  },
+  {
+    path: "/pharmacy/suppliers",
+    route: SupplierRoutes,
+  },
+  {
+    path: "/suppliers",
+    route: SupplierRoutes,
   },
   {
     path: "/admin/dashboard",

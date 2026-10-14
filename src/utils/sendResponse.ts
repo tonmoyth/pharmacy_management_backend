@@ -11,6 +11,7 @@ interface IResponse<T> {
         totalPages: number;
     };
     data?: T | null;
+    summary?: Record<string, unknown> | null;
     token?: string;
     refreshToken?: string;
     sessionToken?: string;
@@ -21,6 +22,7 @@ const sendResponse = <T>(res: Response, data: IResponse<T>) => {
         success: data.success,
         message: data.message || null,
         meta: data.meta || null,
+        ...(data.summary ? { summary: data.summary } : {}),
         data: data.data || null,
         token: data.token,
         refreshToken: data.refreshToken,

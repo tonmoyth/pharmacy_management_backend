@@ -13,6 +13,7 @@ export const catchAsync = (fn: RequestHandler) => {
                 return res.status(error.statusCode).json({
                     success: false,
                     message: error.message,
+                    ...(error.code ? { code: error.code } : {}),
                 });
             }
 

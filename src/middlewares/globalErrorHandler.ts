@@ -111,10 +111,11 @@ export const globalErrorHandler = async (
         ];
     }
 
-    const errorResponse: TErrorResponse = {
+    const errorResponse: TErrorResponse & { code?: string } = {
         success: false,
         message: message,
         errorSources,
+        ...(err.code ? { code: err.code } : {}),
         // error: envVars.NODE_ENV === "development" ? err : undefined,
         // stack: envVars.NODE_ENV === "development" ? stack : undefined,
     };
