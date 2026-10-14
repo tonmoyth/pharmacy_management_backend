@@ -21,6 +21,7 @@ import { CategoryRoutes } from "../modules/pharmacy_owner/category/category.rout
 import { MedicinesManagementRoutes } from "../modules/pharmacy_owner/medicines_management/medicines_management.route";
 import { ExcelCsvImportRoutes } from "../modules/pharmacy_owner/excel_csv_import/excel_csv_import.route";
 import { SupplierRoutes } from "../modules/pharmacy_owner/suppliers/suppliers.route";
+import { PurchaseRoutes } from "../modules/pharmacy_owner/purchases/purchases.route";
 
 const router = express.Router();
 
@@ -93,6 +94,14 @@ const moduleRoutes = [
   {
     path: "/suppliers",
     route: SupplierRoutes,
+  },
+  {
+    path: "/pharmacy/purchases",
+    route: PurchaseRoutes,
+  },
+  {
+    path: "/purchases",
+    route: PurchaseRoutes,
   },
   {
     path: "/admin/dashboard",
