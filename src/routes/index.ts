@@ -18,6 +18,7 @@ import { AdminReportsRoutes } from "../modules/super_admin/reports/reports.route
 import { AdminAuditLogsRoutes } from "../modules/super_admin/audit_logs/audit_logs.route";
 import { AdminNotificationsRoutes } from "../modules/super_admin/notifications/notifications.route";
 import { CategoryRoutes } from "../modules/pharmacy_owner/category/category.route";
+import { MedicinesManagementRoutes } from "../modules/pharmacy_owner/medicines_management/medicines_management.route";
 
 const router = express.Router();
 
@@ -73,6 +74,10 @@ const moduleRoutes = [
   {
     path: "/pharmacy/categories",
     route: CategoryRoutes,
+  },
+  {
+    path: "/pharmacy/medicines",
+    route: MedicinesManagementRoutes,
   },
   {
     path: "/admin/dashboard",
