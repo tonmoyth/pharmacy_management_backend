@@ -24,6 +24,7 @@ import { SupplierRoutes } from "../modules/pharmacy_owner/suppliers/suppliers.ro
 import { PurchaseRoutes } from "../modules/pharmacy_owner/purchases/purchases.route";
 import { PurchaseReturnRoutes } from "../modules/pharmacy_owner/purchase_returns/purchase_returns.route";
 import { SalesRoutes } from "../modules/pharmacy_owner/sales/sales.route";
+import { SalesReturnRoutes } from "../modules/pharmacy_owner/sales_returns/sales_returns.route";
 
 const router = express.Router();
 
@@ -120,6 +121,14 @@ const moduleRoutes = [
   {
     path: "/sales",
     route: SalesRoutes,
+  },
+  {
+    path: "/pharmacy/sales-returns",
+    route: SalesReturnRoutes,
+  },
+  {
+    path: "/sales-returns",
+    route: SalesReturnRoutes,
   },
   {
     path: "/admin/dashboard",
