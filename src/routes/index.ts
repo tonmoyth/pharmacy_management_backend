@@ -26,6 +26,7 @@ import { PurchaseReturnRoutes } from "../modules/pharmacy_owner/purchase_returns
 import { SalesRoutes } from "../modules/pharmacy_owner/sales/sales.route";
 import { SalesReturnRoutes } from "../modules/pharmacy_owner/sales_returns/sales_returns.route";
 import { CustomerRoutes, CustomerDueRoutes } from "../modules/pharmacy_owner/customers/customers.route";
+import { ExpenseRoutes } from "../modules/pharmacy_owner/expenses/expenses.route";
 
 const router = express.Router();
 
@@ -146,6 +147,14 @@ const moduleRoutes = [
   {
     path: "/dues",
     route: CustomerDueRoutes,
+  },
+  {
+    path: "/pharmacy/expenses",
+    route: ExpenseRoutes,
+  },
+  {
+    path: "/expenses",
+    route: ExpenseRoutes,
   },
   {
     path: "/admin/dashboard",

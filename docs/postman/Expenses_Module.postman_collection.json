@@ -1,0 +1,333 @@
+{
+	"info": {
+		"_postman_id": "e3f1b057-8899-4d33-bf44-expenses-v1",
+		"name": "Pharmacy SaaS — Expenses Module (Phase 1)",
+		"description": "Comprehensive Postman collection for the Expenses Module in the Pharmacy Management SaaS platform.\n\n### Authentication\nAll expense endpoints are strictly restricted to the `OWN` (Pharmacy Owner) role. Requires a valid Bearer token in the `Authorization` header (`Bearer {{token}}`) or session token in cookies.\n\n### Environment Variables\n- `baseUrl`: e.g. `http://localhost:5000`\n- `token`: Your Pharmacy Owner Bearer access token\n- `expenseId`: The ID of an expense",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"item": [
+		{
+			"name": "Expenses Management",
+			"item": [
+				{
+					"name": "1. Create Expense (JSON)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = pm.response.json();",
+									"if (jsonData.success && jsonData.data && jsonData.data.id) {",
+									"    pm.environment.set(\"expenseId\", jsonData.data.id);",
+									"    console.log(\"Saved expenseId:\", jsonData.data.id);",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"category\": \"RENT\",\n  \"amount\": 15000,\n  \"expenseDate\": \"2026-10-01\",\n  \"note\": \"Shop monthly rental payment\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							]
+						},
+						"description": "Creates an expense record. Supported categories: RENT, ELECTRICITY, SALARY, INTERNET, TRANSPORT, MAINTENANCE, UTILITY, OTHER."
+					},
+					"response": []
+				},
+				{
+					"name": "2. Create Expense with Attachment (multipart/form-data)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "category",
+									"value": "ELECTRICITY",
+									"type": "text"
+								},
+								{
+									"key": "amount",
+									"value": "3500",
+									"type": "text"
+								},
+								{
+									"key": "expenseDate",
+									"value": "2026-10-10",
+									"type": "text"
+								},
+								{
+									"key": "note",
+									"value": "Electricity bill payment receipt",
+									"type": "text"
+								},
+								{
+									"key": "attachment",
+									"type": "file",
+									"src": ""
+								}
+							]
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							]
+						},
+						"description": "Uploads an expense with a receipt attachment (JPEG, PNG, WEBP, or PDF, max 5MB). Uploads to Cloudinary automatically."
+					},
+					"response": []
+				},
+				{
+					"name": "3. List Expenses (Paginated & Sorted)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses?page=1&limit=10&sortBy=expenseDate&sortOrder=desc",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								},
+								{
+									"key": "sortBy",
+									"value": "expenseDate"
+								},
+								{
+									"key": "sortOrder",
+									"value": "desc"
+								}
+							]
+						},
+						"description": "Lists non-deleted expenses for the authenticated pharmacy."
+					},
+					"response": []
+				},
+				{
+					"name": "4. List Expenses (Filter by Category)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses?category=RENT",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "category",
+									"value": "RENT"
+								}
+							]
+						},
+						"description": "Filters expenses by category."
+					},
+					"response": []
+				},
+				{
+					"name": "5. List Expenses (Filter by Date Range)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses?from=2026-10-01&to=2026-10-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2026-10-01"
+								},
+								{
+									"key": "to",
+									"value": "2026-10-31"
+								}
+							]
+						},
+						"description": "Filters expenses within an inclusive date range."
+					},
+					"response": []
+				},
+				{
+					"name": "6. Get Category-wise Summary",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses/summary?from=2026-10-01&to=2026-10-31",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"summary"
+							],
+							"query": [
+								{
+									"key": "from",
+									"value": "2026-10-01"
+								},
+								{
+									"key": "to",
+									"value": "2026-10-31"
+								}
+							]
+						},
+						"description": "Returns totals and counts grouped by expense category along with overall total for the selected date range."
+					},
+					"response": []
+				},
+				{
+					"name": "7. Get Expense Details",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses/{{expenseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"{{expenseId}}"
+							]
+						},
+						"description": "Retrieves full details of an expense. Excludes soft-deleted records."
+					},
+					"response": []
+				},
+				{
+					"name": "8. Update Expense",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"amount\": 16000,\n  \"note\": \"Updated rent amount\"\n}"
+						},
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses/{{expenseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"{{expenseId}}"
+							]
+						},
+						"description": "Updates expense fields. Supports partial updates and optional attachment replacement."
+					},
+					"response": []
+				},
+				{
+					"name": "9. Soft Delete Expense",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/api/v1/expenses/{{expenseId}}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"expenses",
+								"{{expenseId}}"
+							]
+						},
+						"description": "Soft deletes an expense by setting deletedAt timestamp. Excluded from normal listings, details, and summaries."
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "http://localhost:5000",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "expenseId",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
