@@ -1,6 +1,4 @@
 import express from "express";
-
-
 import { AuthRoutes } from "../modules/auth/auth.route";
 import { PlanRoutes } from "../modules/super_admin/plan/plan.route";
 import { AdminApplicationRoutes } from "../modules/super_admin/application/application.route";
@@ -27,6 +25,7 @@ import { SalesRoutes } from "../modules/pharmacy_owner/sales/sales.route";
 import { SalesReturnRoutes } from "../modules/pharmacy_owner/sales_returns/sales_returns.route";
 import { CustomerRoutes, CustomerDueRoutes } from "../modules/pharmacy_owner/customers/customers.route";
 import { ExpenseRoutes } from "../modules/pharmacy_owner/expenses/expenses.route";
+import { DashboardRoutes } from "../modules/pharmacy_owner/dashboard/dashboard.route";
 
 const router = express.Router();
 
@@ -155,6 +154,10 @@ const moduleRoutes = [
   {
     path: "/expenses",
     route: ExpenseRoutes,
+  },
+  {
+    path: "/pharmacy/dashboard",
+    route: DashboardRoutes,
   },
   {
     path: "/admin/dashboard",
